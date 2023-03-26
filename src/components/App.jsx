@@ -18,7 +18,6 @@ export class App extends Component {
   handleCheckName = name => {
     const { contacts } = this.state;
     const isExistContact = !!contacts.find(contact => contact.name === name);
-    isExistContact && alert(`${name} already in contacts!`);
     return !isExistContact;
   };
 

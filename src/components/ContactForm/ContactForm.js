@@ -19,7 +19,7 @@ export class ContactForm extends Component {
     const { onAdd } = this.props;
     const isValidateForm = this.validateForm();
     if (!isValidateForm) {
-      alert('Please fill in both name and phone fields.');
+      alert(`${name} already in contacts!`);
       return;
     }
     onAdd({ id: uuid(), name, phone });
@@ -46,6 +46,7 @@ export class ContactForm extends Component {
     const { name, phone } = this.state;
     return (
       <form onSubmit={this.handleFormSubmit} className={css.form}>
+        <label> Name </label>
         <input
           type="text"
           name="name"
@@ -55,6 +56,7 @@ export class ContactForm extends Component {
           value={name}
           onChange={this.handleChangeForm}
         />
+        <label> Phone </label>
         <input
           type="tel"
           name="phone"

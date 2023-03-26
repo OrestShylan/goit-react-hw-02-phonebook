@@ -43,3 +43,7 @@ button {
   width: 100px;
   cursor: pointer;
 }
+
+span {
+  margin-right: 10px;
+}
