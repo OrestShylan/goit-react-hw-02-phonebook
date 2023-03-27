@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { v4 as uuid } from 'uuid';
+
 import css from './ContactForm.module.css';
 
 export class ContactForm extends Component {
@@ -17,21 +17,17 @@ export class ContactForm extends Component {
     e.preventDefault();
     const { name, phone } = this.state;
     const { onAdd } = this.props;
-    const isValidateForm = this.validateForm();
-    if (!isValidateForm) {
-      alert(`${name} already in contacts!`);
-      return;
+
+    const isSuccess = onAdd({ name, phone });
+    if (isSuccess) {
+      this.reset();
     }
-    onAdd({ id: uuid(), name, phone });
-    this.reset();
   };
 
   validateForm = () => {
     const { name, phone } = this.state;
     const { checkName } = this.props;
-    if (!name || !phone) {
-      return false;
-    }
+
     return checkName(name);
   };
 

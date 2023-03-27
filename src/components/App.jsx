@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import { v4 as uuid } from 'uuid';
 
 export class App extends Component {
   state = {
@@ -10,15 +11,23 @@ export class App extends Component {
     number: '',
   };
 
-  handleAddContact = newContact =>
+  handleAddContact = newContact => {
+    if (this.handleCheckName(newContact.name)) {
+      alert(`${newContact.name} is already in contacts.`);
+      return false;
+    }
     this.setState(({ contacts }) => ({
-      contacts: [...contacts, newContact],
+      contacts: [...contacts, { ...newContact, id: uuid() }],
     }));
+    return true;
+  };
 
   handleCheckName = name => {
     const { contacts } = this.state;
-    const isExistContact = !!contacts.find(contact => contact.name === name);
-    return !isExistContact;
+    const isExistContact = contacts.some(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    return isExistContact;
   };
 
   handleRemoveContact = id =>
@@ -41,10 +50,7 @@ export class App extends Component {
     return (
       <div className="formSection">
         <h1> Phone book </h1>
-        <ContactForm
-          onAdd={this.handleAddContact}
-          checkName={this.handleCheckName}
-        />
+        <ContactForm onAdd={this.handleAddContact} />
         <h2> Contacts </h2>
 
         <Filter filter={filter} onChange={this.handleFilterChange} />
